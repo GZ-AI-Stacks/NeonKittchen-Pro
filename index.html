@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Neon Kitchen – installierbare Rezept-App</title>
+    <!-- Web App Manifest (als Data-URI) -->
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIk5lb24gS2l0Y2hlbiIsCiAgInNob3J0X25hbWUiOiAiTmVvbktpdGNoZW4iLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzEyMTIxYyIsCiAgInRoZW1lX2NvbG9yIjogIiNjNjFhZmYiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnJTIwd2lkdGglM0QlMjIxOTIlMjIlMjBoZWlnaHQlM0QlMjIxOTIlMjIlMjB2aWV3Qm94JTNEJTIyMCAwJTIwMTkyJTIwMTkyJTIyJTIweG1sbnMlM0QlMjJodHRwJTNBJTJGJTJGd3d3LnczLm9yZyUyRjIwMDAlMkZzdmclMjIlM0UlM0NyZWN0JTIwd2lkdGglM0QlMjIxOTIlMjIlMjBoZWlnaHQlM0QlMjIxOTIlMjIlMjBmaWxsJTNEJTIyJTIzYzYxYWZmJTIyJTJGJTNFJTNDdGV4dCUyMHglM0QlMjI1MCUyNSUyMiUyMHklM0QlMjI1MCUyNSUyMiUyMGRvbWluYW50LWJhc2VsaW5lJTNEJTIybWlkZGxlJTIyJTIwdGV4dC1hbmNob3IlM0QlMjJtaWRkbGUlMjIlMjBmaWxsJTNEJTIyd2hpdGUlMjIlMjBmb250LXNpemUlM0QlMjI3MiUyMiUyMGZvbnQtZmFtaWx5JTNEJTIyQXJpYWwlMjIlM0VOSyUzQyUyRnRleHQlM0UlM0MlMkZzdmclM0UiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9LAogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0NzdmclMjB3aWR0aCUzRCUyMjUxMiUyMiUyMGhlaWdodCUzRCUyMjUxMiUyMiUyMHZpZXdCb3glM0QlMjIwJTIwMCUyMDUxMiUyMDUxMiUyMiUyMHhtbG5zJTNEJ22odHRwJTNBJTJGJTJGd3d3LnczLm9yZyUyRjIwMDAlMkZzdmclMjIlM0UlM0NyZWN0JTIwd2lkdGglM0QlMjI1MTIlMjIlMjBoZWlnaHQlM0QlMjI1MTIlMjIlMjBmaWxsJTNEJTIyJTIzYzYxYWZmJTIyJTJGJTNFJTNDdGV4dCUyMHglM0QlMjI1MCUyNSUyMiUyMHklM0QlMjI1MCUyNSUyMiUyMGRvbWluYW50LWJhc2VsaW5lJTNEJTIybWlkZGxlJTIyJTIwdGV4dC1hbmNob3IlM0QlMjJtaWRkbGUlMjIlMjBmaWxsJTNEJTIyd2hpdGUlMjIlMjBmb250LXNpemUlM0QlMjIyMDAlMjIlMjBmb250LWZhbWlseSUzRCUyMkFyaWFsJTIyJTNFTkslM0MlMkZ0ZXh0JTNFJTNDJTJGc3ZnJTNFIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ==">
+    <style>
+        /* ... gleicher Style wie zuvor ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* WCAG-konforme Farbpalette – Kontraste 4,5:1 oder besser */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f2f2fc;
+            --text-primary: #1e1e2e;           /* fast schwarz */
+            --text-secondary: #2d2d44;
+            --text-muted: #4b4b63;
+            --card-bg: #ffffff;
+            --form-bg: #ffffff;
+
+            --neon-pink: #c61aff;               /* dunkleres Pink */
+            --neon-cyan: #1ac6ff;                /* sattes Cyan */
+            --neon-green: #2eb82e;                /* sattes Grün */
+            --neon-yellow: #e6b800;               /* goldgelb */
+            --neon-orange: #e65c00;                /* sattes Orange */
+            --neon-purple: #9933ff;                /* sattes Lila */
+            --neon-red: #e60000;                    /* sattes Rot */
+            --neon-blue: #0066cc;
+
+            --accent-gradient: linear-gradient(135deg, #c61aff, #1ac6ff, #c61aff);
+            --border-light: #c61aff33;
+            --border-medium: #1ac6ff66;
+            --shadow: 0 0 30px #c61aff80, 0 0 60px #1ac6ff80;
+            --glow: 0 0 20px currentColor;
+
+            --tag-pasta: #c61aff;
+            --tag-rice: #2eb82e;
+            --tag-veg: #1ac6ff;
+            --tag-meat: #e65c00;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #12121c;
+            --bg-secondary: #1c1c2e;
+            --text-primary: #f0f0fa;
+            --text-secondary: #d0d0e6;
+            --text-muted: #a0a0c0;
+            --card-bg: #1e1e30;
+            --form-bg: #1e1e30;
+
+            --neon-pink: #ff80ff;
+            --neon-cyan: #80ffff;
+            --neon-green: #80ff80;
+            --neon-yellow: #ffff80;
+            --neon-orange: #ffb380;
+            --neon-purple: #cc80ff;
+            --neon-red: #ff8080;
+            --neon-blue: #80b3ff;
+
+            --border-light: #ff80ff80;
+            --border-medium: #80ffff80;
+            --shadow: 0 0 40px #ff80ff, 0 0 80px #80ffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: background-color 0.3s, color 0.2s;
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Hintergrund (dezent, kein epileptisches Flackern) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--neon-pink) 0%, transparent 35%),
+                radial-gradient(circle at 80% 70%, var(--neon-cyan) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, var(--neon-green) 0%, transparent 35%),
+                radial-gradient(circle at 90% 20%, var(--neon-yellow) 0%, transparent 30%);
+            filter: blur(50px);
+            animation: gentlePulse 8s infinite alternate;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        @keyframes gentlePulse {
+            0% { opacity: 0.4; filter: blur(50px); }
+            100% { opacity: 0.6; filter: blur(60px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ========== Tastaturfokus ========== */
+        :focus-visible {
+            outline: 4px solid var(--neon-blue);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        /* ========== Kontrollleiste ========== */
+        .control-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .glass-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 25px var(--neon-cyan);
+        }
+
+        .control-group {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(12px);
+            padding: 0.5rem;
+            border-radius: 60px;
+            box-shadow: 0 0 25px var(--neon-pink);
+            border: 2px solid var(--neon-pink);
+        }
+
+        .control-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 44px; height: 44px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: 0.2s;
+            text-shadow: 0 0 8px currentColor;
+        }
+        .control-btn:hover {
+            background: var(--neon-cyan);
+            color: black;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--neon-cyan);
+        }
+
+        .theme-toggle {
+            background: var(--neon-purple);
+            border: none;
+            width: 44px; height: 44px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 0 25px var(--neon-purple);
+            color: white;
+            transition: 0.2s;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(20deg);
+            box-shadow: 0 0 40px var(--neon-purple);
+        }
+
+        /* Install-Button (wird bei Bedarf eingeblendet) */
+        #installButton {
+            background: linear-gradient(135deg, #2eb82e, #1ac6ff);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 20px #2eb82e;
+            display: none; /* anfangs versteckt */
+        }
+        #installButton:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px #1ac6ff;
+        }
+
+        /* ========== Header ========== */
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan), var(--neon-green), var(--neon-yellow));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 20px var(--neon-pink));
+        }
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            display: inline-block;
+            padding: 0.4rem 2rem;
+            border-radius: 60px;
+            border: 2px solid white;
+        }
+
+        /* ========== Formular ========== */
+        .recipe-form {
+            background: rgba(0,0,0,0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 0 50px var(--neon-pink);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        .form-title {
+            font-size: 2rem;
+            color: white;
+            text-shadow: 0 0 15px var(--neon-cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .full-width { grid-column: span 2; }
+
+        label {
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 0 6px var(--neon-pink);
+        }
+        .required::after {
+            content: ' *';
+            color: var(--neon-red);
+        }
+
+        input, select, textarea {
+            padding: 0.9rem 1.2rem;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 40px;
+            background: rgba(0,0,0,0.4);
+            color: white;
+            font-size: 1rem;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 30px var(--neon-pink);
+        }
+
+        /* Fehlermeldungen */
+        .error-message {
+            color: var(--neon-red);
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+            text-shadow: 0 0 5px currentColor;
+            display: none;
+        }
+        .input-error {
+            border-color: var(--neon-red) !important;
+            box-shadow: 0 0 20px var(--neon-red) !important;
+        }
+
+        /* Zutaten-Grid */
+        .ingredients-section {
+            grid-column: span 2;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            padding: 1.5rem;
+            border-radius: 40px;
+            box-shadow: 0 0 30px var(--neon-green);
+        }
+
+        /* Toolbar mit Suchfeld und Kategorie-Buttons */
+        .ingredient-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+        .cat-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--neon-purple);
+            color: white;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px var(--neon-purple);
+            backdrop-filter: blur(4px);
+        }
+        .cat-btn:hover {
+            background: var(--neon-purple);
+            color: black;
+            transform: scale(1.05);
+            border-color: white;
+        }
+        .cat-btn.active {
+            background: var(--neon-purple);
+            color: black;
+            border-color: white;
+            box-shadow: 0 0 30px var(--neon-purple);
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.7rem;
+            max-height: 220px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 30px;
+            margin: 1rem 0;
+        }
+        .ingredient-chip {
+            background: rgba(0,0,0,0.6);
+            border: 2px solid var(--neon-pink);
+            border-radius: 40px;
+            padding: 0.7rem 0.5rem;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            width: 100%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .ingredient-chip:hover {
+            background: var(--neon-pink);
+            color: black;
+            transform: scale(1.02);
+        }
+
+        /* ausgewählte Zutaten */
+        .selected-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 0.5rem;
+        }
+        .selected-item {
+            background: linear-gradient(135deg, rgba(198,26,255,0.2), rgba(26,198,255,0.2));
+            border: 2px solid var(--neon-green);
+            border-radius: 40px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+        .amount-input { width: 70px; background: rgba(0,0,0,0.7); border: 2px solid var(--neon-yellow); border-radius: 40px; padding: 0.3rem; text-align: center; color: white; }
+        .unit-select { width: 70px; background: rgba(0,0,0,0.7); border: 2px solid var(--neon-purple); border-radius: 40px; padding: 0.3rem; color: white; }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
+            border: none;
+            padding: 1.2rem;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: white;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 0 40px var(--neon-pink);
+            border: 2px solid white;
+            transition: 0.2s;
+        }
+        .btn-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 60px var(--neon-cyan);
+        }
+
+        /* Filter-Sektion für Rezepte */
+        .recipe-filter-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            margin: 2rem 0 1.5rem;
+            box-shadow: 0 0 30px var(--neon-purple);
+        }
+        .recipe-filter-pills {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .recipe-pill {
+            background: rgba(0,0,0,0.4);
+            border: 2px solid var(--neon-green);
+            border-radius: 40px;
+            padding: 0.7rem 1.5rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+        }
+        .recipe-pill:hover {
+            background: var(--neon-green);
+            color: black;
+            transform: scale(1.05);
+            border-color: white;
+        }
+        .recipe-pill.active {
+            background: var(--neon-green);
+            color: black;
+            border-color: white;
+            box-shadow: 0 0 30px var(--neon-green);
+        }
+
+        /* Rezeptkarten */
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .recipe-card {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 0 30px var(--neon-pink);
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+        .recipe-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 50px var(--neon-cyan);
+        }
+        .card-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(198,26,255,0.2), rgba(26,198,255,0.2));
+            border-bottom: 2px solid var(--neon-green);
+        }
+        .category-badge {
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            padding: 0.3rem 1.2rem;
+            border-radius: 30px;
+            color: white;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .recipe-title {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 0.2rem;
+        }
+        .recipe-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--text-muted);
+        }
+        .card-content {
+            padding: 1.5rem;
+        }
+        .ingredients-list {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+        .ingredients-list li {
+            color: white;
+            padding: 0.2rem 0;
+            border-bottom: 1px dashed var(--neon-cyan);
+            display: flex;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+        }
+        .card-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+        .action-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            color: white;
+            transition: 0.2s;
+        }
+        .action-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Footer mit Datenschutz & Impressum */
+        .footer-links {
+            margin-top: 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            padding: 1rem 2rem;
+            border-radius: 60px;
+        }
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+        }
+        .footer-links a:hover {
+            border-bottom-color: var(--neon-pink);
+        }
+
+        /* Live-Region unsichtbar */
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            h1 { font-size: 3rem; }
+            .ingredient-toolbar { flex-direction: column; }
+            .cat-btn { flex: 1; }
+        }
+    
+._lsl1i{position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#f0f4f8,#e8eef5);display:flex;align-items:center;justify-content:center;padding:24px}
+@media(prefers-color-scheme:dark){._lsl1i{background:linear-gradient(135deg,#1a1a2e,#16213e)}}
+._lsl1i.hidden{display:none}
+._lbovx{width:100%;max-width:400px;text-align:center}
+._lljj1{font-size:48px;margin-bottom:16px}
+._lt3fk{font-family:'Segoe UI',system-ui,sans-serif;font-size:24px;font-weight:800;color:#2c3e50;margin-bottom:6px}
+@media(prefers-color-scheme:dark){._lt3fk{color:#fff}}
+._lsbsna{font-size:14px;color:#7f8c8d;margin-bottom:28px;line-height:1.5}
+@media(prefers-color-scheme:dark){._lsbsna{color:rgba(255,255,255,0.45)}}
+._lixch{width:100%;padding:16px 18px;border:2px solid #ddd;border-radius:12px;background:#fff;color:#2c3e50;font-family:monospace;font-size:18px;font-weight:700;text-align:center;letter-spacing:3px;text-transform:uppercase;outline:none;transition:border-color .3s;box-sizing:border-box}
+._lixch:focus{border-color:#f472b6}
+._lixch::placeholder{color:#ccc;letter-spacing:2px;font-size:14px}
+@media(prefers-color-scheme:dark){._lixch{background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.15)}._lixch:focus{border-color:#f472b6}._lixch::placeholder{color:rgba(255,255,255,0.2)}}
+._lbtslm{width:100%;padding:16px;border:none;border-radius:12px;background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;font-family:'Segoe UI',system-ui,sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:14px;transition:all .2s;box-sizing:border-box}
+._lbtslm:active{transform:scale(0.97);opacity:0.9}
+._leig6{color:#e74c3c;font-size:13px;font-weight:600;margin-top:12px;min-height:20px}
+._lfki8{font-size:10px;color:rgba(0,0,0,0.15);margin-top:32px;letter-spacing:2px}
+@media(prefers-color-scheme:dark){._lfki8{color:rgba(255,255,255,0.08)}}
+
+</style>
+</head>
+<body>
+<!-- LICENSE ACTIVATION SCREEN -->
+<div class="_lsl1i" id="_lSt344">
+<div class="_lbovx">
+<div class="_lljj1">&#127860;</div>
+<div class="_lt3fk">NeonKittchen</div>
+<div class="_lsbsna">Bitte geben Sie Ihren Lizenzschl&uuml;ssel ein,<br>um die App zu aktivieren.</div>
+<input class="_lixch" id="_lI58hh" type="text" placeholder="NK-XXXX-XXXX-XXXX" maxlength="18" autocomplete="off" spellcheck="false">
+<button class="_lbtslm" onclick="_0xd196b5()">Aktivieren</button>
+<div class="_leig6" id="_lE9au9"></div>
+<div class="_lfki8">GZ-AI.-STACKS &middot; NEONKITTCHEN</div>
+</div>
+</div>
+<script>
+var _0xa0dfd1='nk-license';
+function _0xa8bef5(s){var h=0x7A39E1B;for(var i=0;i<s.length;i++){h=((h<<5)-h+s.charCodeAt(i))|0;h=(h^(h>>>16))|0;h=(h*0x45d9f3b)|0;}return Math.abs(h);}
+function _0x8e70a9(p){var p1=_0xa8bef5(p[0]+'gz');var p2=_0xa8bef5(p[1]+'ai');var c=(p1^p2^0x4E4B43)>>>0;var k=(c%89990)+10000;return k.toString().substring(0,4);}
+function _0x92b8e0(key){if(!key)return false;var k=key.toUpperCase().trim();var m=k.match(/^NK-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})$/);if(!m)return false;return m[3]===_0x8e70a9([m[1],m[2]]);}
+function _0xd196b5(){var input=document.getElementById('_lI58hh');var error=document.getElementById('_lE9au9');var key=input.value.trim().toUpperCase();if(!key){error.textContent='Bitte Lizenzschl\u00FCssel eingeben';return;}if(_0x92b8e0(key)){try{localStorage.setItem(_0xa0dfd1,key);}catch(e){}document.getElementById('_lSt344').classList.add('hidden');error.textContent='';}else{error.textContent='Ung\u00FCltiger Lizenzschl\u00FCssel';input.style.borderColor='#e74c3c';setTimeout(function(){input.style.borderColor='';},2000);}}
+try{var _0x8ff429=localStorage.getItem(_0xa0dfd1);if(_0x8ff429&&_0x92b8e0(_0x8ff429)){document.getElementById('_lSt344').classList.add('hidden');}}catch(e){}
+document.getElementById('_lI58hh').addEventListener('input',function(){var v=this.value.replace(/[^A-Za-z0-9]/g,'').toUpperCase();if(v.length>2&&!v.startsWith('NK'))v='NK'+v.substring(2);var f='';if(v.length>0)f=v.substring(0,2);if(v.length>2)f+='-'+v.substring(2,6);if(v.length>6)f+='-'+v.substring(6,10);if(v.length>10)f+='-'+v.substring(10,14);this.value=f;});
+document.getElementById('_lI58hh').addEventListener('keydown',function(e){if(e.key==='Enter')_0xd196b5();});
+</script>
+
+    <div class="container">
+        <!-- Live-Ankündigungen für Screenreader -->
+        <div class="sr-only" aria-live="polite" id="liveRegion"></div>
+
+        <!-- Steuerung + Install-Button -->
+        <div class="control-bar">
+            <div class="control-group">
+                <button class="control-btn" onclick="zoomOut()" aria-label="Verkleinern">−</button>
+                <span class="zoom-level" id="zoomLevel" aria-live="polite">100%</span>
+                <button class="control-btn" onclick="zoomIn()" aria-label="Vergrößern">+</button>
+                <button class="control-btn" onclick="resetZoom()" aria-label="Zoom zurücksetzen">↺</button>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle" aria-label="Farbschema wechseln">
+                <span id="themeIcon" aria-hidden="true">☀️</span>
+            </button>
+            <button id="installButton" style="display:none;" onclick="installApp()">📲 App installieren</button>
+        </div>
+
+        <header>
+            <h1>NEON KITCHEN</h1>
+            <p class="subtitle">⚡ NEON POWER ⚡</p>
+        </header>
+
+        <!-- Formularbereich (identisch zur letzten Version) -->
+        <section class="recipe-form" aria-labelledby="formHeading">
+            <h2 id="formHeading" class="form-title">⚡ NEON REZEPT ⚡</h2>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="recipeName" class="required">Neonname</label>
+                    <input type="text" id="recipeName" placeholder="z.B. SPAGHETTI CARBONARA" aria-describedby="nameError">
+                    <div id="nameError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="category" class="required">Kategorie</label>
+                    <select id="category">
+                        <option value="Hauptgericht">🍖 Hauptgericht</option>
+                        <option value="Pasta">🍝 Pasta</option>
+                        <option value="Reis">🍚 Reis</option>
+                        <option value="Kartoffeln">🥔 Kartoffeln</option>
+                        <option value="Suppe">🥣 Suppe</option>
+                        <option value="Salat">🥗 Salat</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="prepTime">⏱️ Zeit</label>
+                    <input type="text" id="prepTime" placeholder="z.B. 45 MIN">
+                </div>
+                <div class="form-group">
+                    <label for="difficulty">📊 Level</label>
+                    <select id="difficulty">
+                        <option value="Einfach">⚡ Easy</option>
+                        <option value="Mittel">⚡⚡ Medium</option>
+                        <option value="Schwer">⚡⚡⚡ Hard</option>
+                    </select>
+                </div>
+
+                <!-- Zutatenbereich -->
+                <div class="ingredients-section">
+                    <label id="ingredientsLabel" style="font-size:1.2rem;">🥗 ZUTATEN</label>
+                    <div class="ingredient-toolbar">
+                        <div class="search-box">
+                            <input type="text" id="ingredientSearch" placeholder="🔍 Suchen..." onkeyup="filterIngredients()" style="width:100%;">
+                        </div>
+                        <div style="display:flex; gap:0.3rem; flex-wrap:wrap;">
+                            <button class="cat-btn" data-cat="all" onclick="filterCategory('all')" aria-pressed="true">Alle</button>
+                            <button class="cat-btn" data-cat="pasta" onclick="filterCategory('pasta')" aria-pressed="false">🍝 Pasta</button>
+                            <button class="cat-btn" data-cat="rice" onclick="filterCategory('rice')" aria-pressed="false">🍚 Reis</button>
+                            <button class="cat-btn" data-cat="potato" onclick="filterCategory('potato')" aria-pressed="false">🥔 Kartoffeln</button>
+                            <button class="cat-btn" data-cat="veg" onclick="filterCategory('veg')" aria-pressed="false">🥬 Gemüse</button>
+                            <button class="cat-btn" data-cat="meat" onclick="filterCategory('meat')" aria-pressed="false">🥩 Fleisch</button>
+                        </div>
+                    </div>
+
+                    <div id="ingredientsGrid" class="ingredients-grid" role="listbox" aria-label="Verfügbare Zutaten"></div>
+
+                    <div class="selected-ingredients">
+                        <div class="selected-title">⚡ AUSGEWÄHLT</div>
+                        <div id="selectedIngredients" class="selected-items"></div>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="instructions">📖 Zubereitung</label>
+                    <textarea id="instructions" rows="4" placeholder="Schritte ..."></textarea>
+                </div>
+            </div>
+
+            <!-- Buttons: Speichern / Abbrechen -->
+            <div style="display:flex; gap:1rem;">
+                <button class="btn-submit" onclick="addRecipe()" id="submitBtn">⚡⚡⚡ REZEPT SPEICHERN ⚡⚡⚡</button>
+                <button class="btn-submit" onclick="cancelEdit()" id="cancelBtn" style="display:none; background:#666;">✖ ABBRECHEN</button>
+            </div>
+
+            <!-- Export / Import -->
+            <div style="display:flex; gap:1rem; margin-top:1.5rem; justify-content:center;">
+                <button class="btn-submit" onclick="exportRecipes()" style="background:linear-gradient(135deg,#2eb82e,#1ac6ff); padding:0.8rem; font-size:1rem;">📤 EXPORT</button>
+                <button class="btn-submit" onclick="document.getElementById('importFile').click()" style="background:linear-gradient(135deg,#e65c00,#c61aff); padding:0.8rem; font-size:1rem;">📥 IMPORT</button>
+                <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importRecipes(event)">
+            </div>
+        </section>
+
+        <!-- Filter und Rezeptliste -->
+        <div class="recipe-filter-section">
+            <h2 style="font-size:1.8rem; color:white;">📚 MEINE REZEPTE</h2>
+            <div class="recipe-filter-pills">
+                <button class="recipe-pill" data-cat="all" onclick="filterRecipes('all')" aria-pressed="true">🍽️ ALLE</button>
+                <button class="recipe-pill" data-cat="Pasta" onclick="filterRecipes('Pasta')" aria-pressed="false">🍝 PASTA</button>
+                <button class="recipe-pill" data-cat="Reis" onclick="filterRecipes('Reis')" aria-pressed="false">🍚 REIS</button>
+                <button class="recipe-pill" data-cat="Kartoffeln" onclick="filterRecipes('Kartoffeln')" aria-pressed="false">🥔 KARTOFFELN</button>
+                <button class="recipe-pill" data-cat="Suppe" onclick="filterRecipes('Suppe')" aria-pressed="false">🥣 SUPPEN</button>
+                <button class="recipe-pill" data-cat="Hauptgericht" onclick="filterRecipes('Hauptgericht')" aria-pressed="false">🍖 HAUPTGERICHTE</button>
+            </div>
+        </div>
+
+        <div id="recipesContainer" class="recipes-grid"></div>
+
+        <!-- Footer mit Datenschutz / Impressum -->
+        <footer class="footer-links">
+            <a href="#" onclick="showPrivacy()">Datenschutzerklärung</a>
+            <a href="#" onclick="showImprint()">Impressum</a>
+            <span>© 2026 – alle Rezepte lokal gespeichert</span>
+        </footer>
+    </div>
+
+    <div class="zoom-indicator" id="zoomIndicator" style="position:fixed; bottom:20px; right:20px; background:rgba(0,0,0,0.6); padding:0.5rem 1.2rem; border-radius:40px; color:white; border:2px solid var(--neon-cyan);">100%</div>
+
+    <script>
+        // ---------- Datenbank ----------
+        const ingredientDB = [
+            { name: 'SPAGHETTI', category: 'pasta', icon: '🍝' },
+            { name: 'TAGLIATELLE', category: 'pasta', icon: '🍝' },
+            { name: 'PENNE', category: 'pasta', icon: '🍝' },
+            { name: 'SPÄTZLE', category: 'pasta', icon: '🍝' },
+            { name: 'MAULTASCHEN', category: 'pasta', icon: '🥟' },
+            { name: 'BASMATI', category: 'rice', icon: '🍚' },
+            { name: 'RISOTTO', category: 'rice', icon: '🍚' },
+            { name: 'KARTOFFELN', category: 'potato', icon: '🥔' },
+            { name: 'SÜSSKARTOFFELN', category: 'potato', icon: '🍠' },
+            { name: 'MÖHREN', category: 'veg', icon: '🥕' },
+            { name: 'ZWIEBELN', category: 'veg', icon: '🧅' },
+            { name: 'KNOBLAUCH', category: 'veg', icon: '🧄' },
+            { name: 'TOMATE', category: 'veg', icon: '🍅' },
+            { name: 'PAPRIKA', category: 'veg', icon: '🫑' },
+            { name: 'ZUCCHINI', category: 'veg', icon: '🥒' },
+            { name: 'SPINAT', category: 'veg', icon: '🥬' },
+            { name: 'BROKKOLI', category: 'veg', icon: '🥦' },
+            { name: 'HÄHNCHEN', category: 'meat', icon: '🍗' },
+            { name: 'RINDERHACK', category: 'meat', icon: '🥩' },
+            { name: 'SCHNITZEL', category: 'meat', icon: '🥩' },
+            { name: 'LACHS', category: 'meat', icon: '🐟' },
+            { name: 'EIER', category: 'other', icon: '🥚' },
+            { name: 'PARMESAN', category: 'other', icon: '🧀' },
+            { name: 'SAHNE', category: 'other', icon: '🥛' },
+            { name: 'PETERSILIE', category: 'veg', icon: '🌿' }
+        ];
+
+        // State
+        let selectedIngredients = [];
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
+        let currentZoom = 100;
+        let editingId = null;
+
+        // Hilfsfunktionen
+        const live = document.getElementById('liveRegion');
+        function announce(msg) { live.textContent = msg; }
+
+        // Zutaten-Grid rendern
+        function renderIngredientGrid() {
+            const grid = document.getElementById('ingredientsGrid');
+            const filtered = ingredientDB.filter(ing => 
+                (currentFilter === 'all' || ing.category === currentFilter) &&
+                ing.name.toLowerCase().includes(currentSearch.toLowerCase())
+            );
+            grid.innerHTML = filtered.map(ing => `
+                <button class="ingredient-chip" onclick="addToSelected('${ing.name}','${ing.icon}','${ing.category}')" onkeydown="if(event.key==='Enter'||event.key===' ') addToSelected('${ing.name}','${ing.icon}','${ing.category}')" aria-label="Zutat ${ing.name} hinzufügen">
+                    <span aria-hidden="true">${ing.icon}</span> ${ing.name}
+                </button>
+            `).join('');
+        }
+
+        function filterIngredients() {
+            currentSearch = document.getElementById('ingredientSearch').value;
+            renderIngredientGrid();
+        }
+
+        function filterCategory(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                const active = btn.dataset.cat === cat;
+                btn.classList.toggle('active', active);
+                btn.setAttribute('aria-pressed', active);
+            });
+            renderIngredientGrid();
+            announce(`Zeige ${cat === 'all' ? 'alle' : cat} Zutaten`);
+        }
+
+        function addToSelected(name, icon, category) {
+            if (selectedIngredients.some(i => i.name === name)) {
+                alert('Zutat bereits ausgewählt');
+                announce('Zutat bereits ausgewählt');
+                return;
+            }
+            selectedIngredients.push({ id: Date.now()+Math.random(), name, icon, category, amount: 100, unit: 'g' });
+            renderSelected();
+            announce(name + ' hinzugefügt');
+        }
+
+        function removeSelected(id) {
+            selectedIngredients = selectedIngredients.filter(i => i.id !== id);
+            renderSelected();
+        }
+
+        function renderSelected() {
+            const container = document.getElementById('selectedIngredients');
+            if (!selectedIngredients.length) {
+                container.innerHTML = '<div style="color:white;">⚡ noch nichts ausgewählt</div>';
+                return;
+            }
+            container.innerHTML = selectedIngredients.map(ing => `
+                <div class="selected-item">
+                    <span>${ing.icon} ${ing.name}</span>
+                    <input class="amount-input" type="number" value="${ing.amount}" min="0" step="10" onchange="updateAmount(${ing.id}, this.value)" aria-label="Menge von ${ing.name}">
+                    <select class="unit-select" onchange="updateUnit(${ing.id}, this.value)" aria-label="Einheit">
+                        <option value="g" ${ing.unit==='g'?'selected':''}>g</option>
+                        <option value="kg" ${ing.unit==='kg'?'selected':''}>kg</option>
+                        <option value="ml" ${ing.unit==='ml'?'selected':''}>ml</option>
+                        <option value="Stk" ${ing.unit==='Stk'?'selected':''}>Stk</option>
+                        <option value="EL" ${ing.unit==='EL'?'selected':''}>EL</option>
+                        <option value="TL" ${ing.unit==='TL'?'selected':''}>TL</option>
+                    </select>
+                    <button class="remove-item" onclick="removeSelected(${ing.id})" aria-label="${ing.name} entfernen" style="background:none; border:none; color:var(--neon-red); font-size:1.3rem;">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function updateAmount(id, val) {
+            const ing = selectedIngredients.find(i => i.id === id);
+            if (ing) ing.amount = parseInt(val) || 0;
+        }
+        function updateUnit(id, val) {
+            const ing = selectedIngredients.find(i => i.id === id);
+            if (ing) ing.unit = val;
+        }
+
+        // Rezept speichern (mit Fehleranzeige)
+        function addRecipe() {
+            const name = document.getElementById('recipeName').value.trim();
+            const category = document.getElementById('category').value;
+            const prepTime = document.getElementById('prepTime').value.trim();
+            const difficulty = document.getElementById('difficulty').value;
+            const instructions = document.getElementById('instructions').value.trim();
+            let hasError = false;
+
+            document.querySelectorAll('.error-message').forEach(e => e.style.display = 'none');
+            document.querySelectorAll('input, select, textarea').forEach(e => e.classList.remove('input-error'));
+
+            if (!name) {
+                document.getElementById('nameError').textContent = 'Bitte Rezeptnamen eingeben.';
+                document.getElementById('nameError').style.display = 'block';
+                document.getElementById('recipeName').classList.add('input-error');
+                document.getElementById('recipeName').focus();
+                hasError = true;
+            }
+            if (selectedIngredients.length === 0) {
+                alert('Bitte mindestens eine Zutat auswählen.');
+                announce('Keine Zutaten ausgewählt');
+                hasError = true;
+            }
+            if (hasError) return;
+
+            if (editingId) {
+                const idx = recipes.findIndex(r => r.id === editingId);
+                if (idx !== -1) {
+                    recipes[idx] = { id: editingId, name, category, prepTime: prepTime || 'N/A', difficulty, ingredients: selectedIngredients, instructions: instructions || 'Keine' };
+                }
+                editingId = null;
+                document.getElementById('formHeading').innerText = '⚡ NEON REZEPT ⚡';
+                document.getElementById('submitBtn').innerText = '⚡⚡⚡ REZEPT SPEICHERN ⚡⚡⚡';
+                document.getElementById('cancelBtn').style.display = 'none';
+                announce('Rezept aktualisiert');
+            } else {
+                const newRecipe = { id: Date.now(), name, category, prepTime: prepTime || 'N/A', difficulty, ingredients: selectedIngredients, instructions: instructions || 'Keine' };
+                recipes.unshift(newRecipe);
+                announce('Neues Rezept gespeichert');
+            }
+
+            localStorage.setItem('recipes', JSON.stringify(recipes));
+            document.getElementById('recipeName').value = '';
+            document.getElementById('prepTime').value = '';
+            document.getElementById('instructions').value = '';
+            document.getElementById('ingredientSearch').value = '';
+            selectedIngredients = [];
+            currentSearch = '';
+            renderSelected();
+            renderIngredientGrid();
+            displayRecipes();
+        }
+
+        function cancelEdit() {
+            editingId = null;
+            document.getElementById('formHeading').innerText = '⚡ NEON REZEPT ⚡';
+            document.getElementById('submitBtn').innerText = '⚡⚡⚡ REZEPT SPEICHERN ⚡⚡⚡';
+            document.getElementById('cancelBtn').style.display = 'none';
+            document.getElementById('recipeName').value = '';
+            document.getElementById('prepTime').value = '';
+            document.getElementById('instructions').value = '';
+            selectedIngredients = [];
+            renderSelected();
+            renderIngredientGrid();
+            announce('Bearbeitung abgebrochen');
+        }
+
+        function deleteRecipe(id) {
+            if (confirm('Rezept wirklich löschen?')) {
+                recipes = recipes.filter(r => r.id !== id);
+                localStorage.setItem('recipes', JSON.stringify(recipes));
+                if (editingId === id) cancelEdit();
+                displayRecipes();
+                announce('Rezept gelöscht');
+            }
+        }
+
+        function editRecipe(id) {
+            const r = recipes.find(r => r.id === id);
+            if (!r) return;
+            document.getElementById('recipeName').value = r.name;
+            document.getElementById('category').value = r.category;
+            document.getElementById('prepTime').value = r.prepTime === 'N/A' ? '' : r.prepTime;
+            document.getElementById('difficulty').value = r.difficulty;
+            document.getElementById('instructions').value = r.instructions === 'Keine' ? '' : r.instructions;
+            selectedIngredients = r.ingredients.map(i => ({ ...i, id: Date.now() + Math.random() }));
+            renderSelected();
+            editingId = id;
+            document.getElementById('formHeading').innerText = '⚡ REZEPT BEARBEITEN ⚡';
+            document.getElementById('submitBtn').innerText = '⚡⚡⚡ UPDATE SPEICHERN ⚡⚡⚡';
+            document.getElementById('cancelBtn').style.display = 'inline-block';
+            document.querySelector('.recipe-form').scrollIntoView({ behavior: 'smooth' });
+            announce('Bearbeitungsmodus aktiv');
+        }
+
+        function displayRecipes(filter = 'all') {
+            const cont = document.getElementById('recipesContainer');
+            let filtered = recipes;
+            if (filter !== 'all') filtered = recipes.filter(r => r.category === filter);
+            if (!filtered.length) {
+                cont.innerHTML = '<div class="empty-state" style="grid-column:1/-1; text-align:center; padding:3rem; background:rgba(0,0,0,0.2); border-radius:60px;">⚡ KEINE REZEPTE ⚡</div>';
+                return;
+            }
+            cont.innerHTML = filtered.map(r => `
+                <article class="recipe-card">
+                    <div class="card-header">
+                        <span class="category-badge">⚡ ${r.category} ⚡</span>
+                        <h3 class="recipe-title">${r.name}</h3>
+                        <div class="recipe-meta">⏱️ ${r.prepTime} · 📊 ${r.difficulty}</div>
+                    </div>
+                    <div class="card-content">
+                        <ul class="ingredients-list">${r.ingredients.map(i => `<li>${i.icon} ${i.name} <span style="margin-left:auto;">${i.amount} ${i.unit}</span></li>`).join('')}</ul>
+                        <div class="instructions-preview">${r.instructions.substring(0,80)}…</div>
+                        <div class="card-actions">
+                            <button class="action-btn edit-btn" onclick="editRecipe(${r.id})" aria-label="bearbeiten">✏️</button>
+                            <button class="action-btn delete-btn" onclick="deleteRecipe(${r.id})" aria-label="löschen">🗑️</button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function filterRecipes(cat) {
+            document.querySelectorAll('.recipe-pill').forEach(btn => {
+                const active = btn.dataset.cat === cat;
+                btn.classList.toggle('active', active);
+                btn.setAttribute('aria-pressed', active);
+            });
+            displayRecipes(cat);
+            announce(`Zeige ${cat === 'all' ? 'alle' : cat} Rezepte`);
+        }
+
+        // Export / Import
+        function exportRecipes() {
+            const data = JSON.stringify(recipes, null, 2);
+            const blob = new Blob([data], {type: 'application/json'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `rezepte-${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            announce('Export gestartet');
+        }
+
+        function importRecipes(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    const imported = JSON.parse(ev.target.result);
+                    if (Array.isArray(imported)) {
+                        recipes = imported;
+                        localStorage.setItem('recipes', JSON.stringify(recipes));
+                        displayRecipes();
+                        announce('Import erfolgreich');
+                        alert('Rezepte importiert!');
+                    } else throw new Error('Kein Array');
+                } catch {
+                    alert('Fehlerhafte Datei');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Zoom
+        function zoomIn() { if (currentZoom<150) { currentZoom+=10; applyZoom(); announce('Zoom '+currentZoom+'%'); } }
+        function zoomOut() { if (currentZoom>50) { currentZoom-=10; applyZoom(); announce('Zoom '+currentZoom+'%'); } }
+        function resetZoom() { currentZoom=100; applyZoom(); announce('Zoom zurückgesetzt'); }
+        function applyZoom() {
+            document.querySelector('.container').style.transform = `scale(${currentZoom/100})`;
+            document.getElementById('zoomLevel').textContent = currentZoom+'%';
+            document.getElementById('zoomIndicator').textContent = currentZoom+'%';
+            localStorage.setItem('zoomLevel', currentZoom);
+        }
+
+        // Theme
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
+            announce(isDark ? 'Helles Schema' : 'Dunkles Schema');
+        }
+
+        // Footer Popups
+        function showPrivacy() { alert('Datenschutzerklärung: Es werden keine personenbezogenen Daten gespeichert. Alle Rezepte verbleiben lokal in Ihrem Browser (LocalStorage).'); }
+        function showImprint() { alert('Impressum: Betreiber dieser Seite ist Gerd Zimmermann, Görlitzerstraße 10, 91315 Höchstadt an der Aisch. Kontakt: gz-ai-stacks@gmail.com'); }
+
+        // ---------- PWA: Service Worker ----------
+        if ('serviceWorker' in navigator) {
+            // Service Worker Code als String (cached die aktuelle Seite)
+            const swCode = `
+                self.addEventListener('install', event => {
+                    event.waitUntil(
+                        caches.open('neon-kitchen-v1').then(cache => {
+                            return cache.addAll(['.']);
+                        })
+                    );
+                });
+                self.addEventListener('fetch', event => {
+                    event.respondWith(
+                        caches.match(event.request).then(response => {
+                            return response || fetch(event.request);
+                        })
+                    );
+                });
+            `;
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl).then(reg => {
+                console.log('Service Worker registriert', reg);
+            }).catch(err => {
+                console.error('Service Worker Fehler', err);
+            });
+        }
+
+        // ---------- Installationsaufforderung (PWA) ----------
+        let deferredPrompt;
+        const installBtn = document.getElementById('installButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'inline-block';
+        });
+
+        window.addEventListener('appinstalled', () => {
+            installBtn.style.display = 'none';
+            deferredPrompt = null;
+            console.log('App installiert');
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted install');
+                    } else {
+                        console.log('User declined install');
+                    }
+                    deferredPrompt = null;
+                    installBtn.style.display = 'none';
+                });
+            }
+        }
+
+        // Initialisierung
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedZoom = localStorage.getItem('zoomLevel');
+            if (savedZoom) { currentZoom = parseInt(savedZoom); applyZoom(); }
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+
+            document.querySelector('.cat-btn[data-cat="all"]').classList.add('active');
+            renderIngredientGrid();
+            displayRecipes();
+        });
+
+        // Tastaturkurzbefehle
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey) {
+                if (e.key === '+' || e.key === '=') { e.preventDefault(); zoomIn(); }
+                else if (e.key === '-') { e.preventDefault(); zoomOut(); }
+                else if (e.key === '0') { e.preventDefault(); resetZoom(); }
+            }
+        });
+    </script>
+</body>
+</html>
